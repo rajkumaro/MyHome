@@ -1,0 +1,46 @@
+{
+  "name": "MyHome Backend",
+  "description": "MyHome Service Provider Marketplace - Backend API",
+  "repository": "https://github.com/rajkumaro/MyHome",
+  "logo": "https://raw.githubusercontent.com/rajkumaro/MyHome/main/docs/assets/logo.png",
+  "keywords": ["node", "express", "mongodb", "marketplace"],
+  "addons": [
+    {
+      "plan": "mongolab:sandbox",
+      "as": "MONGODB"
+    },
+    {
+      "plan": "heroku-redis:mini",
+      "as": "REDIS"
+    }
+  ],
+  "env": {
+    "NODE_ENV": {
+      "value": "production"
+    },
+    "JWT_SECRET": {
+      "description": "Secret key for JWT token signing. Use a long random string.",
+      "generator": "secret"
+    },
+    "STRIPE_SECRET_KEY": {
+      "description": "Stripe secret key for payment processing.",
+      "required": false
+    },
+    "CLIENT_URL": {
+      "description": "URL of the frontend application.",
+      "value": "https://myhome-frontend.vercel.app"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "stack": "heroku-22"
+}
