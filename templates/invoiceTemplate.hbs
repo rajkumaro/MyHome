@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Invoice {{invoiceNumber}} – MyHome</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #F9FAFB;
+      margin: 0;
+      padding: 0;
+      color: #111827;
+    }
+    .wrapper {
+      max-width: 680px;
+      margin: 32px auto;
+      background: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+    .header {
+      background: #2563EB;
+      padding: 28px 40px;
+    }
+    .header h1 {
+      color: #ffffff;
+      margin: 0 0 4px;
+      font-size: 26px;
+    }
+    .header p {
+      color: #BFDBFE;
+      margin: 0;
+      font-size: 13px;
+    }
+    .meta {
+      padding: 24px 40px;
+      border-bottom: 1px solid #E5E7EB;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .meta-block h3 {
+      font-size: 12px;
+      color: #6B7280;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 0 0 6px;
+    }
+    .meta-block p {
+      margin: 2px 0;
+      font-size: 14px;
+      color: #111827;
+    }
+    .meta-block .invoice-num {
+      font-size: 18px;
+      font-weight: 700;
+      color: #2563EB;
+    }
+    .parties {
+      padding: 24px 40px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+      border-bottom: 1px solid #E5E7EB;
+    }
+    .party h3 {
+      font-size: 12px;
+      color: #6B7280;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 0 0 8px;
+    }
+    .party p {
+      margin: 2px 0;
+      font-size: 14px;
+    }
+    .items {
+      padding: 24px 40px;
+    }
+    .items h2 {
+      font-size: 14px;
+      color: #6B7280;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 0 0 16px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    thead th {
+      font-size: 12px;
+      color: #6B7280;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      text-align: left;
+      padding: 8px 12px;
+      border-bottom: 2px solid #E5E7EB;
+    }
+    thead th:last-child { text-align: right; }
+    tbody td {
+      padding: 12px 12px;
+      font-size: 14px;
+      border-bottom: 1px solid #F3F4F6;
+      vertical-align: top;
+    }
+    tbody td:nth-child(2),
+    tbody td:nth-child(3),
+    tbody td:nth-child(4) {
+      text-align: right;
+      white-space: nowrap;
+    }
+    .totals {
+      padding: 0 40px 24px;
+    }
+    .totals-table {
+      width: 300px;
+      margin-left: auto;
+    }
+    .totals-table td {
+      padding: 6px 0;
+      font-size: 14px;
+    }
+    .totals-table td:last-child {
+      text-align: right;
+      font-weight: 600;
+    }
+    .totals-table .grand-total td {
+      font-size: 16px;
+      font-weight: 700;
+      color: #2563EB;
+      border-top: 2px solid #E5E7EB;
+      padding-top: 12px;
+    }
+    .payment-info {
+      padding: 16px 40px;
+      background: #F0FDF4;
+      border-top: 1px solid #D1FAE5;
+    }
+    .payment-info p {
+      margin: 4px 0;
+      font-size: 13px;
+      color: #065F46;
+    }
+    .notes {
+      padding: 16px 40px;
+      border-top: 1px solid #E5E7EB;
+    }
+    .notes h3 {
+      font-size: 12px;
+      color: #6B7280;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 0 0 8px;
+    }
+    .notes p {
+      font-size: 13px;
+      color: #374151;
+      margin: 0;
+    }
+    .footer {
+      background: #F9FAFB;
+      padding: 20px 40px;
+      text-align: center;
+      border-top: 1px solid #E5E7EB;
+    }
+    .footer p {
+      margin: 4px 0;
+      font-size: 12px;
+      color: #9CA3AF;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+
+    <!-- Header -->
+    <div class="header">
+      <h1>MyHome</h1>
+      <p>Service Provider Marketplace</p>
+    </div>
+
+    <!-- Invoice meta -->
+    <div class="meta">
+      <div class="meta-block">
+        <h3>Invoice</h3>
+        <p class="invoice-num">{{invoiceNumber}}</p>
+      </div>
+      <div class="meta-block">
+        <h3>Issue Date</h3>
+        <p>{{formatDate createdAt}}</p>
+      </div>
+      {{#if dueDate}}
+      <div class="meta-block">
+        <h3>Due Date</h3>
+        <p>{{formatDate dueDate}}</p>
+      </div>
+      {{/if}}
+      <div class="meta-block">
+        <h3>Status</h3>
+        <p style="text-transform: capitalize; font-weight: 600;">{{status}}</p>
+      </div>
+    </div>
+
+    <!-- Parties -->
+    <div class="parties">
+      <div class="party">
+        <h3>Bill From</h3>
+        <p><strong>{{serviceProvider.name}}</strong></p>
+        <p>{{serviceProvider.email}}</p>
+        {{#if serviceProvider.phone}}<p>{{serviceProvider.phone}}</p>{{/if}}
+      </div>
+      <div class="party">
+        <h3>Bill To</h3>
+        <p><strong>{{client.name}}</strong></p>
+        <p>{{client.email}}</p>
+        {{#if client.phone}}<p>{{client.phone}}</p>{{/if}}
+      </div>
+    </div>
+
+    <!-- Line items -->
+    <div class="items">
+      <h2>Services</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Qty</th>
+            <th>Unit Price</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each items}}
+          <tr>
+            <td>{{description}}</td>
+            <td>{{quantity}}</td>
+            <td>{{formatCurrency unitPrice}}</td>
+            <td>{{formatCurrency total}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Totals -->
+    <div class="totals">
+      <table class="totals-table">
+        <tbody>
+          <tr>
+            <td>Subtotal</td>
+            <td>{{formatCurrency subtotal}}</td>
+          </tr>
+          {{#each discounts}}
+          <tr>
+            <td>{{description}}</td>
+            <td style="color:#DC2626;">-{{formatCurrency amount}}</td>
+          </tr>
+          {{/each}}
+          <tr>
+            <td>Tax ({{taxRate}}%)</td>
+            <td>{{formatCurrency tax}}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr class="grand-total">
+            <td>Total</td>
+            <td>{{formatCurrency total}}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <!-- Payment info -->
+    {{#if paymentMethod}}
+    <div class="payment-info">
+      <p>✓ <strong>Payment received</strong></p>
+      {{#if paidDate}}<p>Paid on {{formatDate paidDate}}</p>{{/if}}
+      <p>Method: {{paymentMethod}}</p>
+    </div>
+    {{/if}}
+
+    <!-- Notes -->
+    {{#if notes}}
+    <div class="notes">
+      <h3>Notes</h3>
+      <p>{{notes}}</p>
+    </div>
+    {{/if}}
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>Thank you for using MyHome!</p>
+      <p>Questions? Email <a href="mailto:support@myhome.app">support@myhome.app</a></p>
+      <p style="margin-top:8px;">MyHome Service Provider Marketplace &nbsp;|&nbsp; www.myhome.app</p>
+    </div>
+
+  </div>
+</body>
+</html>
