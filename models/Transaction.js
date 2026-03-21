@@ -23,10 +23,10 @@ const transactionSchema = new mongoose.Schema(
       default: 'usd',
       lowercase: true,
     },
-    paymentMethodId: {
+    cardLast4: {
       type: String,
       default: '',
-      comment: 'Last 4 digits of the card',
+      comment: 'Last 4 digits of the card used for payment',
     },
     status: {
       type: String,

@@ -4,13 +4,17 @@ const Booking = require('../models/Booking');
 const Transaction = require('../models/Transaction');
 
 /**
- * Generate a unique invoice number: INV-YYYYMMDD-XXXX
+ * Generate a unique invoice number: INV-YYYYMMDD-XXXX-YYY
+ * Uses date + random segment + process.hrtime nanoseconds for uniqueness under load.
  */
 const generateInvoiceNumber = () => {
   const date = new Date();
   const datePart = date.toISOString().slice(0, 10).replace(/-/g, '');
   const rand = Math.floor(1000 + Math.random() * 9000);
-  return `INV-${datePart}-${rand}`;
+  // hrtime[1] wraps at 1e9; take last 3 digits for a tiebreaker
+  const nano = process.hrtime()[1] % 1000;
+  const suffix = String(nano).padStart(3, '0');
+  return `INV-${datePart}-${rand}-${suffix}`;
 };
 
 /**

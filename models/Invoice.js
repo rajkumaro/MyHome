@@ -94,6 +94,5 @@ const invoiceSchema = new mongoose.Schema(
 invoiceSchema.index({ bookingId: 1 });
 invoiceSchema.index({ client: 1 });
 invoiceSchema.index({ serviceProvider: 1 });
-invoiceSchema.index({ invoiceNumber: 1 });
 
 module.exports = mongoose.model('Invoice', invoiceSchema);

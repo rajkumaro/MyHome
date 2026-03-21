@@ -97,7 +97,7 @@ const processPayment = async (req, res) => {
       userId: req.user.id,
       amount: paymentIntent.amount,
       currency: paymentIntent.currency,
-      paymentMethodId: paymentMethodId,
+      cardLast4: paymentMethodId,
       status: 'succeeded',
       stripePaymentIntentId: paymentIntentId,
       stripeChargeId: chargeId,
