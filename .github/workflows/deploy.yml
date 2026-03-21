@@ -23,6 +23,9 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.inputs.environment == 'staging'
     environment: staging
+    permissions:
+      contents: read
+      packages: read
 
     steps:
       - name: Checkout code
@@ -53,6 +56,9 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.inputs.environment == 'production'
     environment: production
+    permissions:
+      contents: read
+      packages: read
 
     steps:
       - name: Checkout code

@@ -16,6 +16,8 @@ jobs:
   test:
     name: Run Tests
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     services:
       mongodb:
         image: mongo:6.0
@@ -134,6 +136,8 @@ jobs:
     needs: build
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     environment: production
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout code

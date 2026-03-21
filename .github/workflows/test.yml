@@ -10,6 +10,8 @@ jobs:
   backend-tests:
     name: Backend Tests
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     services:
       mongodb:
@@ -68,6 +70,8 @@ jobs:
   frontend-tests:
     name: Frontend Tests
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout code
