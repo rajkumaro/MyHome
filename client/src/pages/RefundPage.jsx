@@ -163,16 +163,22 @@ const RefundPage = () => {
         setError('Please enter a valid refund amount greater than zero.');
         return;
       }
+      // Validate max 2 decimal places to avoid floating-point rounding issues
+      if (!/^\d+(\.\d{1,2})?$/.test(amount.trim())) {
+        setError('Refund amount must have at most 2 decimal places.');
+        return;
+      }
     }
     setError('');
     setSubmitting(true);
     try {
+      // Safe cents conversion: multiply by 100, then round to avoid floating-point issues
+      const dollarsToCents = (dollars) => Math.round(parseFloat(dollars.replace(/,/g, '')) * 100);
       const payload = {
         bookingId,
         reason,
         ...(comments && { comments }),
-        // Convert dollars → cents to match the Stripe/backend convention
-        ...(partial && amount ? { amount: Math.round(parseFloat(amount) * 100) } : {}),
+        ...(partial && amount ? { amount: dollarsToCents(amount) } : {}),
       };
       const res = await refundPayment(payload);
       setResult(res.data);

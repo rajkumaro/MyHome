@@ -32,7 +32,7 @@ const paymentMethodSchema = new mongoose.Schema(
     expiryYear: {
       type: Number,
       required: [true, 'Expiry year is required'],
-      min: 2020
+      min: new Date().getFullYear() - 1
     },
     isDefault: {
       type: Boolean,

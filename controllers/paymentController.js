@@ -89,12 +89,21 @@ const processPayment = async (req, res) => {
 
     const invoiceNumber = invoiceService.generateInvoiceNumber();
 
+    // Extract last 4 digits from payment method if available
+    let cardLast4 = '';
+    try {
+      const pm = await stripeService.getPaymentMethod(paymentMethodId);
+      cardLast4 = pm.card?.last4 || '';
+    } catch (pmErr) {
+      console.error('Could not fetch payment method details (non-fatal):', pmErr.message);
+    }
+
     const transaction = await Transaction.create({
       bookingId,
       userId: req.user.id,
       amount: paymentIntent.amount,
       currency: paymentIntent.currency.toUpperCase(),
-      cardLast4: paymentMethodId,
+      cardLast4,
       status: 'succeeded',
       stripePaymentIntentId: paymentIntentId,
       stripeChargeId: chargeId,

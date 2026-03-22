@@ -159,7 +159,7 @@ const PaymentModal = ({ isOpen, onClose, booking, onSuccess }) => {
           </div>
         )}
 
-        {!processing && !message?.type === 'success' && (
+        {!processing && message?.type !== 'success' && (
           <Elements stripe={stripePromise}>
             <CheckoutForm
               booking={booking}

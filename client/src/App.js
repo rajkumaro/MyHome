@@ -9,7 +9,9 @@ import PaymentHistory from './pages/PaymentHistory';
 import InvoicesPage from './pages/InvoicesPage';
 import RefundPage from './pages/RefundPage';
 
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY || '');
+const stripePromise = process.env.REACT_APP_STRIPE_PUBLIC_KEY
+  ? loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY)
+  : null;
 
 function App() {
   return (
